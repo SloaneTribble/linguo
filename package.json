@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/common": "^18.2.2",
+    "@angular/platform-browser": "^18.2.2"
+  }
+}
