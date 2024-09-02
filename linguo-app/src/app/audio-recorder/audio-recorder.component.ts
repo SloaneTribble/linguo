@@ -20,10 +20,9 @@ export class AudioRecorderComponent {
     this.audioService.startRecording();
   }
 
-  stopRecording() {
+  async stopRecording() {
     this.recording = false;
-    this.audioService.stopRecording();
-    const audioBlob = this.audioService.getAudioBlob();
+    const audioBlob = await this.audioService.stopRecording();
     if (audioBlob) {
       this.audioURL = URL.createObjectURL(audioBlob);
     }
