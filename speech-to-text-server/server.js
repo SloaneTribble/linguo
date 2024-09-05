@@ -45,29 +45,36 @@ app.post('/upload-audio', async (req, res) => {
     audio: audio,
     config: config,
   };
-  
-  // Log the request details
-  console.log('Sending request to Speech-to-Text API:', request);
-  
+
   try {
     const [response] = await client.recognize(request);
-    // Log the response details
-    console.log('Received response from Speech-to-Text API:', response);
-    const transcription = response.results
-      .map(result => result.alternatives[0].transcript)
-      .join('\n');
-    res.json({ transcription });
+    
+    // Extract transcription and word-level confidence
+    const transcriptionDetails = response.results.map(result => {
+      const words = result.alternatives[0].words.map(wordInfo => ({
+        word: wordInfo.word,
+        confidence: wordInfo.confidence || 0.0,  // Confidence for each word
+      }));
+
+      const transcript = result.alternatives[0].transcript;
+
+      return { transcript, words };
+    });
+
+    // Respond with both the transcription and word confidences
+    res.json({ transcriptionDetails });
+    
   } catch (err) {
     console.error('Error from Speech-to-Text API:', err);
     res.status(500).send(err.message);
-  }
-  finally {
+  } finally {
     // Optionally delete temp file
     if (fs.existsSync(tempFilePath)) {
       fs.unlinkSync(tempFilePath);
     }
   }
 });
+
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');

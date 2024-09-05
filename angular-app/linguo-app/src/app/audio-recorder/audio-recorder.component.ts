@@ -26,7 +26,8 @@ export class AudioRecorderComponent {
     const audioBlob = await this.audioService.stopRecording();
     if (audioBlob) {
       this.audioURL = URL.createObjectURL(audioBlob);
-      this.saveRecording();
+      // enable to automatically download recordings
+      // this.saveRecording();
 
       await this.audioService.analyzeRecording();
 
@@ -38,7 +39,22 @@ export class AudioRecorderComponent {
         .subscribe({
           next: (response: any) => {
             console.log('Server response:', response);
-            alert('Transcription: ' + response.transcription);
+            // Parse the transcriptionDetails array
+          if (response.transcriptionDetails && response.transcriptionDetails.length > 0) {
+            const transcriptionDetail = response.transcriptionDetails[0];
+            const transcript = transcriptionDetail.transcript;
+
+            console.log('Transcript:', transcript);  // The entire transcript
+
+            const wordConfidenceDetails = transcriptionDetail.words.map((wordInfo: any) => {
+              return `Word: ${wordInfo.word}, Confidence: ${wordInfo.confidence}`;
+            }).join('\n');
+
+            console.log('Word confidence details:\n', wordConfidenceDetails);
+            alert('Transcription: ' + transcript + '\n\nWord Confidence Details:\n' + wordConfidenceDetails);
+          } else {
+            alert('No transcription details found.');
+          }
           },
           error: (error) => {
             console.error('Error uploading audio:', error);
