@@ -8,22 +8,25 @@ import { CommonModule } from '@angular/common';
   templateUrl: './text-to-speech.component.html',
   styleUrls: ['./text-to-speech.component.css'],
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule]  // FormsModule for two-way binding
+  imports: [CommonModule, HttpClientModule, FormsModule]
 })
 export class TextToSpeechComponent {
   textInput: string = '';
+  selectedLanguage: string = 'en'; // Default to English
   audioURL: string | null = null;
+  languages = [
+    { name: 'English', code: 'en' },
+    { name: 'Spanish', code: 'es' }
+  ];
 
   constructor(private http: HttpClient) {}
 
   sendTextToServer() {
     if (this.textInput.trim() !== '') {
-      this.http.post('http://localhost:3000/text-to-speech', { text: this.textInput }, { responseType: 'blob' })
+      this.http.post('http://localhost:3000/text-to-speech', { text: this.textInput, language: this.selectedLanguage }, { responseType: 'blob' })
         .subscribe({
           next: (response: Blob) => {
-            // Create an audio URL from the server's response
             this.audioURL = URL.createObjectURL(response);
-            // Optional: Play the audio automatically
             const audio = new Audio(this.audioURL);
             audio.play();
           },

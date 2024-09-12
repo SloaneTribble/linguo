@@ -29,6 +29,7 @@ app.post('/upload-audio', async (req, res) => {
   }
 
   const audioFile = req.files.audio;
+  const languageCode = req.body.language || 'en-US'; // Default to English
 
   // Save the file temporarily
   const tempFilePath = path.join(__dirname, 'temp-audio.webm');
@@ -47,7 +48,7 @@ app.post('/upload-audio', async (req, res) => {
     audioChannelCount: 1,
     encoding: 'WEBM_OPUS',
     sampleRateHertz: 48000,
-    languageCode: 'en-US',
+    languageCode: languageCode,
   };
   const request = {
     audio: audio,
@@ -86,14 +87,23 @@ app.post('/upload-audio', async (req, res) => {
 // Text-to-Speech API endpoint
 app.post('/text-to-speech', async (req, res) => {
   const text = req.body.text;
+  const language = req.body.language || 'en'; // Default to English
 
   if (!text) {
     return res.status(400).send('Text input is required.');
   }
 
+  let voiceName = 'en-US-Wavenet-F'; // Default to English Female voice
+  let languageCode = 'en-US'; // Default to English
+
+  if (language === 'es') {
+    voiceName = 'es-ES-Wavenet-C'; // Spanish Female voice
+    languageCode = 'es-ES';
+  }
+
   const request = {
     input: { text },
-    voice: { name: 'en-US-Wavenet-F', languageCode: 'en-US'},
+    voice: { name: voiceName, languageCode: languageCode },
     audioConfig: { audioEncoding: 'MP3' },
   };
 

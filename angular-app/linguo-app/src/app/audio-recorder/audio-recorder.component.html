@@ -1,6 +1,8 @@
 <div>
-    <button (click)="startRecording()" [disabled]="recording">Start Recording</button>
-    <button (click)="stopRecording()" [disabled]="!recording">Stop Recording</button>
-    <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
-  </div>
-  
+  <button (click)="startRecording()">Start Recording</button>
+  <button (click)="stopRecording()">Stop Recording</button>
+  <select [(ngModel)]="selectedLanguage">
+    <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.name }}</option>
+  </select>
+  <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
+</div>

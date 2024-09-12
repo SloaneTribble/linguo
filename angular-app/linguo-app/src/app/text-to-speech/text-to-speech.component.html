@@ -1,12 +1,9 @@
-<div class="text-to-speech">
-    <h2>Text to Speech</h2>
-    <textarea [(ngModel)]="textInput" rows="5" placeholder="Enter text to convert to speech"></textarea>
-    <br>
+<div>
+    <textarea [(ngModel)]="textInput" placeholder="Enter text here..."></textarea>
+    <select [(ngModel)]="selectedLanguage">
+      <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.name }}</option>
+    </select>
     <button (click)="sendTextToServer()">Convert to Speech</button>
-    
-    <!-- Show audio controls if audio is available -->
-    <div *ngIf="audioURL">
-      <audio [src]="audioURL" controls></audio>
-    </div>
+    <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
   </div>
   
