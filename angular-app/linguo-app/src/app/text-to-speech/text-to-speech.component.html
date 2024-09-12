@@ -1,8 +1,5 @@
 <div>
     <textarea [(ngModel)]="textInput" placeholder="Enter text here..."></textarea>
-    <select [(ngModel)]="selectedLanguage">
-      <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.name }}</option>
-    </select>
     <button (click)="sendTextToServer()">Convert to Speech</button>
     <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
   </div>

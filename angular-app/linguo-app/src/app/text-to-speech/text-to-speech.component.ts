@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-text-to-speech',
@@ -12,18 +13,20 @@ import { CommonModule } from '@angular/common';
 })
 export class TextToSpeechComponent {
   textInput: string = '';
-  selectedLanguage: string = 'en'; // Default to English
   audioURL: string | null = null;
-  languages = [
-    { name: 'English', code: 'en' },
-    { name: 'Spanish', code: 'es' }
-  ];
+  language: string = 'en-US'; // Default to English
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private languageService: LanguageService) {
+    this.languageService.getLanguage().subscribe((lang: string) => {
+      this.language = lang === 'es' ? 'es-ES' : 'en-US';
+      console.log('TextToSpeechComponent language updated:', this.language);
+    });
+  }
 
   sendTextToServer() {
     if (this.textInput.trim() !== '') {
-      this.http.post('http://localhost:3000/text-to-speech', { text: this.textInput, language: this.selectedLanguage }, { responseType: 'blob' })
+      console.log("Sending text:", this.language);
+      this.http.post('http://localhost:3000/text-to-speech', { text: this.textInput, language: this.language }, { responseType: 'blob' })
         .subscribe({
           next: (response: Blob) => {
             this.audioURL = URL.createObjectURL(response);

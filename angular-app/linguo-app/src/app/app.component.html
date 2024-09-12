@@ -1,2 +1,12 @@
-<app-audio-recorder></app-audio-recorder>
-<app-text-to-speech></app-text-to-speech>
+<div>
+    <h1>{{ title }}</h1>
+    <label for="language-select">Select Language:</label>
+    <select id="language-select" (change)="onLanguageChange($event)">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+    </select>
+    
+    <app-audio-recorder></app-audio-recorder>
+    <app-text-to-speech></app-text-to-speech>
+  </div>
+  

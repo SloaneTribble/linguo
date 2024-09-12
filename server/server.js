@@ -29,6 +29,7 @@ app.post('/upload-audio', async (req, res) => {
   }
 
   const audioFile = req.files.audio;
+  console.log(req.body.language);
   const languageCode = req.body.language || 'en-US'; // Default to English
 
   // Save the file temporarily
@@ -64,7 +65,6 @@ app.post('/upload-audio', async (req, res) => {
         word: wordInfo.word,
         confidence: wordInfo.confidence || 0.0,
       }));
-
       const transcript = result.alternatives[0].transcript;
 
       return { transcript, words };
@@ -96,7 +96,7 @@ app.post('/text-to-speech', async (req, res) => {
   let voiceName = 'en-US-Wavenet-F'; // Default to English Female voice
   let languageCode = 'en-US'; // Default to English
 
-  if (language === 'es') {
+  if (language === 'es-ES') {
     voiceName = 'es-ES-Wavenet-C'; // Spanish Female voice
     languageCode = 'es-ES';
   }
@@ -108,6 +108,7 @@ app.post('/text-to-speech', async (req, res) => {
   };
 
   try {
+    console.log(request);
     const [response] = await textToSpeechClient.synthesizeSpeech(request);
 
     // Save the audio file temporarily
