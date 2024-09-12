@@ -2,25 +2,33 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const speech = require('@google-cloud/speech');
+const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 
+// Initialize Express app
 const app = express();
 app.use(cors());
 app.use(fileUpload());
+app.use(express.json()); // To handle JSON payloads for text-to-speech
 
-// Create a client
-const client = new speech.SpeechClient({
-  keyFilename: './speech-to-text-credentials.json' 
+// Create clients for both Speech-to-Text and Text-to-Speech
+const speechClient = new speech.SpeechClient({
+  keyFilename: './speech-to-text-credentials.json'
 });
 
-// Endpoint to receive the audio from Angular app and send it to Speech-to-Text API
+const textToSpeechClient = new textToSpeech.TextToSpeechClient({
+  keyFilename: './text-to-speech-credentials.json'
+});
+
+// Speech-to-Text API endpoint
 app.post('/upload-audio', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
-  const audioFile = req.files.audio; // Assuming you send the file with the key 'audio'
+  const audioFile = req.files.audio;
 
   // Save the file temporarily
   const tempFilePath = path.join(__dirname, 'temp-audio.webm');
@@ -38,8 +46,8 @@ app.post('/upload-audio', async (req, res) => {
     enableWordConfidence: true,
     audioChannelCount: 1,
     encoding: 'WEBM_OPUS',
-    sampleRateHertz: 48000, // Match the sample rate of your recording
-    languageCode: 'en-US',  // Set your language here
+    sampleRateHertz: 48000,
+    languageCode: 'en-US',
   };
   const request = {
     audio: audio,
@@ -47,13 +55,13 @@ app.post('/upload-audio', async (req, res) => {
   };
 
   try {
-    const [response] = await client.recognize(request);
+    const [response] = await speechClient.recognize(request);
     
     // Extract transcription and word-level confidence
     const transcriptionDetails = response.results.map(result => {
       const words = result.alternatives[0].words.map(wordInfo => ({
         word: wordInfo.word,
-        confidence: wordInfo.confidence || 0.0,  // Confidence for each word
+        confidence: wordInfo.confidence || 0.0,
       }));
 
       const transcript = result.alternatives[0].transcript;
@@ -75,7 +83,40 @@ app.post('/upload-audio', async (req, res) => {
   }
 });
 
+// Text-to-Speech API endpoint
+app.post('/text-to-speech', async (req, res) => {
+  const text = req.body.text;
 
+  if (!text) {
+    return res.status(400).send('Text input is required.');
+  }
+
+  const request = {
+    input: { text },
+    voice: { name: 'en-US-Wavenet-F', languageCode: 'en-US'},
+    audioConfig: { audioEncoding: 'MP3' },
+  };
+
+  try {
+    const [response] = await textToSpeechClient.synthesizeSpeech(request);
+
+    // Save the audio file temporarily
+    const tempFilePath = path.join(__dirname, 'temp-audio.mp3');
+    await util.promisify(fs.writeFile)(tempFilePath, response.audioContent, 'binary');
+
+    // Send the audio file as a response
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.sendFile(tempFilePath, () => {
+      fs.unlinkSync(tempFilePath); // Delete the file after sending
+    });
+
+  } catch (err) {
+    console.error('Error during Text-to-Speech:', err);
+    res.status(500).send('Error generating speech');
+  }
+});
+
+// Start the server
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
