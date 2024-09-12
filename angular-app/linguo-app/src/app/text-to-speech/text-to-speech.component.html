@@ -1,0 +1,12 @@
+<div class="text-to-speech">
+    <h2>Text to Speech</h2>
+    <textarea [(ngModel)]="textInput" rows="5" placeholder="Enter text to convert to speech"></textarea>
+    <br>
+    <button (click)="sendTextToServer()">Convert to Speech</button>
+    
+    <!-- Show audio controls if audio is available -->
+    <div *ngIf="audioURL">
+      <audio [src]="audioURL" controls></audio>
+    </div>
+  </div>
+  

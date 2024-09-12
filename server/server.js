@@ -11,7 +11,7 @@ app.use(fileUpload());
 
 // Create a client
 const client = new speech.SpeechClient({
-  keyFilename: './speech-to-text-credentials.json' // Add path to your JSON key
+  keyFilename: './speech-to-text-credentials.json' 
 });
 
 // Endpoint to receive the audio from Angular app and send it to Speech-to-Text API
