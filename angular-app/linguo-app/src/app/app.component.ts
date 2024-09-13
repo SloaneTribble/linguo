@@ -27,7 +27,7 @@ export class AppComponent {
     this.languageService.setLanguage(language);
   }
 
-  setNewPhrase() {
+  setRandomPhrase() {
     this.phraseService.setRandomPhrase();
   }
 }

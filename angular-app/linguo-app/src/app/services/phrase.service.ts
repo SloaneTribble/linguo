@@ -1,24 +1,43 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { LanguageService } from './language.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PhraseService {
-  private phrases: string[] = [
-    'Hello, how are you?',
-    'I would like a cup of coffee.',
-    'Can you help me?',
-  ];
-  private currentPhraseSubject = new BehaviorSubject<string>(this.phrases[0]);
+  private phrases: { [key: string]: string[] } = {
+    'en': [
+      'Hello, how are you?',
+      'What is your name?',
+      'Where are you from?'
+    ],
+    'es': [
+      'Hola, ¿cómo estás?',
+      '¿Cómo te llamas?',
+      '¿De dónde eres?'
+    ]
+  };
 
-  get currentPhrase() {
-    return this.currentPhraseSubject.asObservable();
+  private currentPhraseSubject = new BehaviorSubject<string>(this.getRandomPhrase('en'));
+  currentPhrase = this.currentPhraseSubject.asObservable();
+
+  private currentLanguage: string = 'en';
+
+  constructor(private languageService: LanguageService) {
+    // Subscribe to language changes
+    this.languageService.getLanguage().subscribe(lang => {
+      this.currentLanguage = lang;
+      this.setRandomPhrase();
+    });
   }
 
-  // Call this method to set a new phrase (e.g., a new phrase for the user to say)
+  getRandomPhrase(language: string): string {
+    const phrases = this.phrases[language] || [];
+    return phrases[Math.floor(Math.random() * phrases.length)];
+  }
+
   setRandomPhrase() {
-    const randomIndex = Math.floor(Math.random() * this.phrases.length);
-    this.currentPhraseSubject.next(this.phrases[randomIndex]);
+    this.currentPhraseSubject.next(this.getRandomPhrase(this.currentLanguage));
   }
 }
