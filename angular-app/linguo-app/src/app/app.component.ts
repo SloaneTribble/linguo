@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { AudioRecorderComponent } from './audio-recorder/audio-recorder.component';
 import { TextToSpeechComponent } from "./text-to-speech/text-to-speech.component";
 import { LanguageService } from './services/language.service';
+import { PhraseService } from './services/phrase.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,19 @@ import { LanguageService } from './services/language.service';
 export class AppComponent {
   title = 'linguo-app';
 
-  constructor(private languageService: LanguageService) {}
+  constructor(
+    private languageService: LanguageService,
+    private phraseService: PhraseService
+  ) {}
 
   onLanguageChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const language = selectElement.value;
     console.log('Selected Language:', language);
     this.languageService.setLanguage(language);
+  }
+
+  setNewPhrase() {
+    this.phraseService.setRandomPhrase();
   }
 }
