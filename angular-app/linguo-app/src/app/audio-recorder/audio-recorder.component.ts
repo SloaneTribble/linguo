@@ -20,6 +20,14 @@ export class AudioRecorderComponent {
   // phrase for user to speak and record
   phrase: string = '';
 
+  // variables for displaying feedback on user input
+  transcript: string = '';
+  wordMatches: string[] = [];
+  wordConfidenceDetails: { word: string, confidence: number }[] = [];
+
+  // set default to an impossible number to indicate no calculated value
+  matchAccuracy: number = -100;
+
   constructor(private audioService: AudioService, private http: HttpClient, private languageService: LanguageService, private phraseService: PhraseService) {
     this.languageService.getLanguage().subscribe((lang: string) => {
       this.language = lang === 'es' ? 'es-ES' : 'en-US';
@@ -30,8 +38,9 @@ export class AudioRecorderComponent {
     });
   }
 
+  // note that more characters may need to be considered if languages outside of English and Spanish are available to user
   cleanString(str: string): string {
-      return str.toLowerCase().replace(/[.,!?;:]/g, '');
+      return str.toLowerCase().replace(/[.,!?;:¿]/g, '');
   }
 
   compareWords(prompt: string, transcript: string): number {
@@ -42,10 +51,10 @@ export class AudioRecorderComponent {
     console.log("Transcript words from compareWords(): ", transcriptWords);
   
     // Find matching words
-    const matches = transcriptWords.filter(word => promptWords.includes(word));
+    this.wordMatches = transcriptWords.filter(word => promptWords.includes(word));
   
     // Calculate accuracy as a percentage
-    const accuracy = (matches.length / promptWords.length) * 100;
+    const accuracy = (this.wordMatches.length / promptWords.length) * 100;
   
     return accuracy;
   }
@@ -73,17 +82,19 @@ export class AudioRecorderComponent {
             if (response.transcriptionDetails && response.transcriptionDetails.length > 0) {
               const transcriptionDetail = response.transcriptionDetails[0];
               const transcript = transcriptionDetail.transcript;
+              this.transcript = transcript;
 
+              
+              this.wordConfidenceDetails = transcriptionDetail.words.map((wordInfo: any) => {
+                return { word: wordInfo.word, confidence: wordInfo.confidence };
+              });
+              
+              
+              this.matchAccuracy = this.compareWords(this.phrase, transcript);
+              // alert('Transcription: ' + transcript + '\n\nWord Confidence Details:\n' + wordConfidenceDetails);
               console.log('Transcript:', transcript);
-
-              const wordConfidenceDetails = transcriptionDetail.words.map((wordInfo: any) => {
-                return `Word: ${wordInfo.word}, Confidence: ${wordInfo.confidence}`;
-              }).join('\n');
-
-              console.log('Word confidence details:\n', wordConfidenceDetails);
-              alert('Transcription: ' + transcript + '\n\nWord Confidence Details:\n' + wordConfidenceDetails);
-              const accuracy = this.compareWords(this.phrase, transcript);
-            console.log(`Match Accuracy: ${accuracy}%`);
+              console.log('Word confidence details:\n', this.wordConfidenceDetails);
+              console.log(`Match Accuracy: ${this.matchAccuracy}%`);
             } else {
               alert('No transcription details found.');
             }
@@ -100,6 +111,22 @@ export class AudioRecorderComponent {
 
   saveRecording() {
     this.audioService.saveRecording('my-recording.webm');
+  }
+
+  // format a lengthy decimal to a more user-friendly percentage
+  formatDecimal(confidence: number): string{
+    return (confidence * 100).toFixed(2) + '%';
+  }
+
+  getColorForConfidence(confidence: number): string {
+    // Google seems to seldom pick up on words with a confidence of less than 70% or so -- need to accommodate missing words in transcript detected by speech-to-text
+    if (confidence >= 0.9) {
+      return 'green'; 
+    } else if (confidence >= 0.8) {
+      return 'orange'; 
+    } else {
+      return 'red'; 
+    }
   }
 }
 

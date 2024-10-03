@@ -6,3 +6,32 @@
   <button (click)="stopRecording()">Stop Recording</button>
   <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
 </div>
+<div *ngIf="transcript">
+  <h4>Transcript</h4>
+  <p>{{ transcript }}</p>
+</div>
+
+<div *ngIf="wordMatches.length > 0">
+  <h4>Word Matches</h4>
+  {{wordMatches}}
+</div>
+
+<div *ngIf="wordConfidenceDetails.length > 0">
+  <h4>Word Confidence Scores</h4>
+  <ul>
+    <li *ngFor="let detail of wordConfidenceDetails">
+      {{ detail.word }}
+      <div class="confidence-bar" 
+           [ngStyle]="{ 'width': detail.confidence * 100 + '%', 'background-color': getColorForConfidence(detail.confidence) }">
+        {{ formatDecimal(detail.confidence) }}
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+<div *ngIf="matchAccuracy >= 0">
+  <h4>Match Accuracy</h4>
+  <p>{{ matchAccuracy }}%</p>
+</div>

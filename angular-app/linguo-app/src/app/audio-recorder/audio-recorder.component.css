@@ -1,0 +1,11 @@
+.confidence-bar {
+    height: 20px;
+    margin-top: 5px;
+    border-radius: 5px;
+    color: white; /* Ensure the text stands out */
+    text-align: center; /* Center the text horizontally */
+    line-height: 20px; /* Vertically center the text */
+    overflow: hidden; /* Ensure text doesn’t overflow outside the bar */
+    font-weight: bold; /* Make the text more readable */
+  }
+  
