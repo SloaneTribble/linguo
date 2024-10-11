@@ -9,3 +9,43 @@
     font-weight: bold; /* Make the text more readable */
   }
   
+
+  button {
+    margin: 10px;
+    padding: 15px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  button:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+
+  button.start{
+    box-shadow: 0px 0px 14px -7px #00ce2d;
+    background-image: linear-gradient(45deg, #1eaf1e 0%, #00811c  51%, #2fc52f  100%);
+  }
+
+
+  button.stop{
+    box-shadow: 0px 0px 14px -7px #f05619;
+    background-image: linear-gradient(45deg, #ff2f2f 0%, #c20000  51%, #ff2f2f  100%);
+  }

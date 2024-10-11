@@ -2,8 +2,8 @@
   <p>{{ phrase }}</p>
 </div>
 <div>
-  <button (click)="startRecording()">Start Recording</button>
-  <button (click)="stopRecording()">Stop Recording</button>
+  <button class="start" (click)="startRecording()">Start Recording</button>
+  <button class="stop" (click)="stopRecording()">Stop Recording</button>
   <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
 </div>
 <div *ngIf="transcript">
