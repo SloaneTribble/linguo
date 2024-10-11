@@ -13,7 +13,7 @@ import { PhraseService } from './services/phrase.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'linguo-app';
+  title = 'Linguo';
 
   constructor(
     private languageService: LanguageService,

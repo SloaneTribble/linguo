@@ -1,3 +1,7 @@
+:root{
+  --shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.6);
+}
+
 html,
 body{
     box-sizing: border-box;
@@ -7,6 +11,7 @@ body{
     min-height: 100vh;
     display: flex;
     flex: 1;
+    background-color: #F09819;
 }
 *,
 *:before,
@@ -46,4 +51,31 @@ button:hover {
 
 button:active {
   transform: scale(0.95);
+}
+
+.title{
+  padding: 10px;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(115, 248, 37);
+}
+
+.language-select-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-select{
+  padding: 10px;
+  font-size: 1.2rem;
+}
+
+select{
+  margin: .2rem;
+  padding: .2rem;
+  font-size: 1.2rem;
 }

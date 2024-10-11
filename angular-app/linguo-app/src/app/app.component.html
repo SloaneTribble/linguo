@@ -1,14 +1,19 @@
 <div>
+  <div class="title">
     <h1>{{ title }}</h1>
-    <label for="language-select">Select Language:</label>
-    <select id="language-select" (change)="onLanguageChange($event)">
-      <option value="en">English</option>
-      <option value="es">Spanish</option>
-    </select>
+  </div>
+    <div class="language-select-container">
+      <label class="language-select" for="language-select">Select Language:</label>
+      <select id="language-select" (change)="onLanguageChange($event)">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+      </select>
+    </div>
 
     <button (click)="setRandomPhrase()">Try a New Phrase</button>
     <app-text-to-speech></app-text-to-speech>
     
     <app-audio-recorder></app-audio-recorder>
   </div>
+
   

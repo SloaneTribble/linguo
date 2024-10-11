@@ -1,3 +1,11 @@
+.audio-recorder-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 16px;
+  justify-items: center;
+  align-items: center;
+}
+
 .confidence-bar {
     height: 20px;
     margin-top: 5px;
@@ -8,6 +16,10 @@
     overflow: hidden; /* Ensure text doesn’t overflow outside the bar */
     font-weight: bold; /* Make the text more readable */
   }
+
+.phrase-container{
+  font-size: 1.5rem;
+}
   
 
   button {
