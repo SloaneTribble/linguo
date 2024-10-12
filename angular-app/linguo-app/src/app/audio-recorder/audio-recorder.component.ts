@@ -13,8 +13,8 @@ import { PhraseService } from '../services/phrase.service';
   imports: [CommonModule, HttpClientModule]
 })
 export class AudioRecorderComponent {
-  recording = false;
-  audioURL: string | null = null;
+  recording = true;
+  audioURL: string | null = 'abc';
   // Default to English
   language: string = 'en-US'; 
   // phrase for user to speak and record
