@@ -21,12 +21,12 @@ export class AudioRecorderComponent {
   phrase: string = '';
 
   // variables for displaying feedback on user input
-  transcript: string = '';
-  wordMatches: string[] = [];
-  wordConfidenceDetails: { word: string, confidence: number }[] = [];
+  transcript: string = 'hello';
+  wordMatches: string[] = ['hello'];
+  wordConfidenceDetails: { word: string, confidence: number }[] = [{word: "hello", confidence: .99}];
 
   // set default to an impossible number to indicate no calculated value
-  matchAccuracy: number = -100;
+  matchAccuracy: number = 100;
 
   constructor(private audioService: AudioService, private http: HttpClient, private languageService: LanguageService, private phraseService: PhraseService) {
     this.languageService.getLanguage().subscribe((lang: string) => {

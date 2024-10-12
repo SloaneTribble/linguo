@@ -4,9 +4,11 @@
   <p>{{ phrase }}</p>
 </div>
 <div>
-  <button class="start" (click)="startRecording()">Start Recording</button>
-  <button class="stop" (click)="stopRecording()">Stop Recording</button>
-  <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
+  <div class="button-container">
+    <button class="start" (click)="startRecording()">Start Recording</button>
+    <button class="stop" (click)="stopRecording()">Stop Recording</button>
+    <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
+  </div>
 </div>
 <div *ngIf="transcript">
   <h4>Transcript</h4>

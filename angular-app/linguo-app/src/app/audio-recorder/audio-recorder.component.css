@@ -1,9 +1,12 @@
 .audio-recorder-container{
+  border: .2rem solid black;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-  gap: 16px;
-  justify-items: center;
-  align-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(2, 1fr, 2fr);
+  gap: 8px;
+  align-content: center;
+  justify-content: center;
+  
 }
 
 .confidence-bar {
@@ -18,9 +21,16 @@
   }
 
 .phrase-container{
+  border: .2rem solid black;
   font-size: 1.5rem;
+  text-align: center;
+}
+
+.button-container{
+  display: grid;
 }
   
+
 
   button {
     margin: 10px;
