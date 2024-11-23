@@ -9,6 +9,37 @@
   
 }
 
+.get-help-container {
+  margin-top: 10px;
+}
+
+.get-help {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-overflow: scroll;
+}
+
+.get-help:hover {
+  background-color: #0056b3;
+}
+
+pre {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap; /* Ensures long text wraps within the container */
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-x: auto; /* Adds horizontal scrolling for very long lines */
+}
+
+
 .confidence-bar {
     height: 20px;
     margin-top: 5px;

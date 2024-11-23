@@ -1,5 +1,16 @@
 <div class="audio-recorder-container">
 
+  <div class="get-help-container">
+      <h3>Need help with this phrase?</h3>
+      <button class="get-help" (click)="getHelp()">Get Help</button>
+  </div>
+  
+  <div *ngIf="helpText">
+    <h4>Advice for properly saying "{{ phrase }}"</h4>
+    <pre>{{ helpText }}</pre>
+  </div>
+  
+
 <div class="phrase-container">
   <p>{{ phrase }}</p>
 </div>

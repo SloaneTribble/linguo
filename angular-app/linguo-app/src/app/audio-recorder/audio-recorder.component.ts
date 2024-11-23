@@ -4,6 +4,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AudioService } from '../services/audio.service';
 import { LanguageService } from '../services/language.service';
 import { PhraseService } from '../services/phrase.service';
+import { environment } from '../environments/environment';
+
+const openaiApiKey = environment.openaiApiKey;
 
 @Component({
   selector: 'app-audio-recorder',
@@ -13,17 +16,35 @@ import { PhraseService } from '../services/phrase.service';
   imports: [CommonModule, HttpClientModule]
 })
 export class AudioRecorderComponent {
-  recording = true;
-  audioURL: string | null = 'abc';
+
+  serverEndpoint: string = 'http://localhost:3000/upload-audio';
+
+  // // DEBUG
+  // recording = true;
+  // audioURL: string | null = 'abc';
+  // // END DEBUG
+
+  recording = false;
+  audioURL: string | null = null;
+
   // Default to English
   language: string = 'en-US'; 
   // phrase for user to speak and record
   phrase: string = '';
 
+  // holds advice from OpenAI
+  helpText: string = '';
+
+  // // DEBUG
+  // transcript: string = 'hello';
+  // wordMatches: string[] = ['hello'];
+  // wordConfidenceDetails: { word: string, confidence: number }[] = [{word: "hello", confidence: .99}];
+  // // END DEBUG
+
   // variables for displaying feedback on user input
-  transcript: string = 'hello';
-  wordMatches: string[] = ['hello'];
-  wordConfidenceDetails: { word: string, confidence: number }[] = [{word: "hello", confidence: .99}];
+  transcript: string = '';
+  wordMatches: string[] = [];
+  wordConfidenceDetails: { word: string, confidence: number }[] = [];
 
   // set default to an impossible number to indicate no calculated value
   matchAccuracy: number = 100;
@@ -75,7 +96,7 @@ export class AudioRecorderComponent {
       formData.append('audio', audioBlob, 'audio.webm');
       formData.append('language', this.language);
 
-      this.http.post('http://localhost:3000/upload-audio', formData)
+      this.http.post(this.serverEndpoint, formData)
         .subscribe({
           next: (response: any) => {
             console.log('Server response:', response);
@@ -128,5 +149,42 @@ export class AudioRecorderComponent {
       return 'red'; 
     }
   }
+
+  async getHelp() {
+    if (!this.phrase) {
+      this.helpText = 'Please select a phrase to get help.';
+      return;
+    }
+  
+    const payload = {
+      model: 'gpt-4o-mini', // Specify the model
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        {
+          role: 'user',
+          content: `The user is practicing the phrase: "${this.phrase}". Provide a brief description of common mistakes that learners might make when trying to pronounce this phrase and advice on how to avoid them.  Please do not provide a summary sentence.`,
+        },
+      ],
+    };
+  
+    try {
+      const response: any = await this.http
+        .post('https://api.openai.com/v1/chat/completions', payload, {
+          headers: {
+            Authorization: `Bearer ${ openaiApiKey }`,
+            'Content-Type': 'application/json',
+          },
+        })
+        .toPromise();
+  
+      this.helpText = response?.choices?.[0]?.message?.content.trim() || 'No advice available.';
+    } catch (error) {
+      console.error('Error fetching advice:', error);
+      this.helpText = 'There was an error retrieving advice. Please try again.';
+    }
+  }
+  
+
+  
 }
 
