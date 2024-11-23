@@ -162,7 +162,7 @@ export class AudioRecorderComponent {
         { role: 'system', content: 'You are a helpful assistant.' },
         {
           role: 'user',
-          content: `The user is practicing the phrase: "${this.phrase}". Provide a brief description of common mistakes that learners might make when trying to pronounce this phrase and advice on how to avoid them.  Please do not provide a summary sentence.`,
+          content: `The user is practicing the phrase: "${this.phrase}". Provide a brief description of common mistakes that the user might make when trying to pronounce this phrase and advice on how to avoid them.  Please address the user directly.  Please do not provide a summary sentence.`,
         },
       ],
     };
