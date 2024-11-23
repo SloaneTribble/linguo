@@ -7,6 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 
+require('dotenv').config();
+
+
 // Initialize Express app
 const app = express();
 app.use(cors());
@@ -127,7 +130,38 @@ app.post('/text-to-speech', async (req, res) => {
   }
 });
 
+// OpenAI
+app.post('/get-advice', async (req, res) => {
+  const payload = req.body;
+
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error from OpenAI: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const advice = data.choices[0]?.message?.content.trim();
+
+    res.json({ advice });
+  } catch (error) {
+    console.error('Error communicating with OpenAI:', error);
+    res.status(500).json({ error: 'Failed to retrieve advice from OpenAI' });
+  }
+});
+
+
 // Start the server
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
+
+

@@ -17,7 +17,10 @@ const openaiApiKey = environment.openaiApiKey;
 })
 export class AudioRecorderComponent {
 
-  serverEndpoint: string = 'http://localhost:3000/upload-audio';
+  serverEndpoint: string = 'http://localhost:3000';
+
+  uploadEndpoint: string = 'http://localhost:3000/upload-audio';
+  getHelpEndpoint: string = 'http://localhost:3000/get-advice';
 
   // // DEBUG
   // recording = true;
@@ -96,7 +99,7 @@ export class AudioRecorderComponent {
       formData.append('audio', audioBlob, 'audio.webm');
       formData.append('language', this.language);
 
-      this.http.post(this.serverEndpoint, formData)
+      this.http.post(`${this.serverEndpoint}/upload-audio`, formData)
         .subscribe({
           next: (response: any) => {
             console.log('Server response:', response);
@@ -169,15 +172,11 @@ export class AudioRecorderComponent {
   
     try {
       const response: any = await this.http
-        .post('https://api.openai.com/v1/chat/completions', payload, {
-          headers: {
-            Authorization: `Bearer ${ openaiApiKey }`,
-            'Content-Type': 'application/json',
-          },
-        })
+        .post(`${this.serverEndpoint}/get-advice`, payload)
         .toPromise();
   
-      this.helpText = response?.choices?.[0]?.message?.content.trim() || 'No advice available.';
+        this.helpText = response?.advice?.trim() || 'No advice available.';
+
     } catch (error) {
       console.error('Error fetching advice:', error);
       this.helpText = 'There was an error retrieving advice. Please try again.';
