@@ -5,6 +5,10 @@ import { CommonModule } from '@angular/common';
 import { LanguageService } from '../services/language.service';
 import { PhraseService } from '../services/phrase.service';
 
+import { environment } from '../environments/environment';
+
+const serverEndpoint = environment.serverEndpoint;
+
 @Component({
   selector: 'app-text-to-speech',
   templateUrl: './text-to-speech.component.html',
@@ -17,6 +21,7 @@ export class TextToSpeechComponent {
   audioURL: string | null = null;
   language: string = 'en-US'; // Default to English
   phrase: string = '';
+  serverEndpoint = serverEndpoint;
 
   constructor(private http: HttpClient, private languageService: LanguageService, private phraseService: PhraseService) {
     this.languageService.getLanguage().subscribe((lang: string) => {
@@ -31,7 +36,7 @@ export class TextToSpeechComponent {
   sendTextToServer() {
     if (this.phrase.trim() !== '') {
       console.log("Sending text:", this.language);
-      this.http.post('http://localhost:3000/text-to-speech', { text: this.phrase, language: this.language }, { responseType: 'blob' })
+      this.http.post(`${serverEndpoint}/text-to-speech`, { text: this.phrase, language: this.language }, { responseType: 'blob' })
         .subscribe({
           next: (response: Blob) => {
             this.audioURL = URL.createObjectURL(response);

@@ -44,6 +44,7 @@ export class AudioService {
     return this.audioBlob;
   }
 
+  // for debugging
   async analyzeRecording() {
     if (this.audioBlob) {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();

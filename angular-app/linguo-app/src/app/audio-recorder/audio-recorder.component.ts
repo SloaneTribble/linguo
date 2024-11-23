@@ -7,6 +7,7 @@ import { PhraseService } from '../services/phrase.service';
 import { environment } from '../environments/environment';
 
 const openaiApiKey = environment.openaiApiKey;
+const serverEndpoint = environment.serverEndpoint;
 
 @Component({
   selector: 'app-audio-recorder',
@@ -17,10 +18,7 @@ const openaiApiKey = environment.openaiApiKey;
 })
 export class AudioRecorderComponent {
 
-  serverEndpoint: string = 'http://localhost:3000';
-
-  uploadEndpoint: string = 'http://localhost:3000/upload-audio';
-  getHelpEndpoint: string = 'http://localhost:3000/get-advice';
+  serverEndpoint = serverEndpoint;
 
   // // DEBUG
   // recording = true;
