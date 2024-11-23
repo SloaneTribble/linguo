@@ -12,9 +12,9 @@ export class PhraseService {
       'Hello, how are you?',
       'What is your name?',
       'Where are you from?',
-      'Good morning!',
-      'Good afternoon!',
-      'Good evening!',
+      'Good morning.',
+      'Good afternoon.',
+      'Good evening.',
       'How is your day going?',
 
       // Common Questions

@@ -159,7 +159,7 @@ export class AudioRecorderComponent {
     const payload = {
       model: 'gpt-4o-mini', // Specify the model
       messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'system', content: 'You are a friendly, down-to-earth yet sophisticated and charming pronunciation expert.' },
         {
           role: 'user',
           content: `The user is practicing the phrase: "${this.phrase}". Provide a brief description of common mistakes that the user might make when trying to pronounce this phrase and advice on how to avoid them.  Please address the user directly.  Please do not provide a summary sentence.`,
