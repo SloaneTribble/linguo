@@ -10,12 +10,12 @@ body {
   height: 100vh; /* Ensure full viewport height */
   margin: 0; /* Remove default margin */
   box-sizing: border-box;
-  background-color: #F09819; /* Your background color */
+  background-color: #F09819; 
 }
 
 body{
     min-height: 100vh;
-    background-color: #F09819;
+    background-color: #d2bda0;
 
 }
 *,

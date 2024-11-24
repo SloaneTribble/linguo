@@ -6,12 +6,15 @@
   gap: 8px;
   align-content: center;
   justify-content: center;
+  display: flex;
+  flex-direction: column;
+  background-color: peachpuff;
   
 }
 
 .get-help-container {
   margin-top: 10px;
-  margin-left: .5rem;
+  margin-left: 1rem;
   display: flex;
 }
 
@@ -59,6 +62,8 @@ pre {
     line-height: 20px; /* Vertically center the text */
     overflow: hidden; /* Ensure text doesn’t overflow outside the bar */
     font-weight: bold; /* Make the text more readable */
+    max-width: 90%;
+    justify-self: center;
   }
 
 .phrase-container{
@@ -123,4 +128,19 @@ pre {
   button.try-new-phrase{
     box-shadow: 0px 0px 14px -7px #ac2800;
     background-image: linear-gradient(45deg, #ff8c21 0%, #e5750d  51%, #e5ab0d  100%);
+  }
+
+  .word-analysis-container{
+    padding: 0 .5rem;
+  }
+
+  ul{
+    list-style-type:none;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .transcript-container, .word-match-container, .confidence-scores-container, .match-accuracy-container{
+    border: solid black 1px;
+    padding: 0 .5rem;
   }

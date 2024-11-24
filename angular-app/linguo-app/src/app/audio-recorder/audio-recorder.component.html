@@ -6,7 +6,6 @@
   </div>
   
   <div class="help-text-container" *ngIf="helpText">
-    <h4>Advice for properly saying "{{ phrase }}"</h4>
       <pre>{{ helpText }}</pre>
   </div>
   
@@ -25,17 +24,21 @@
     <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
   </div>
 </div>
-<div *ngIf="transcript">
+
+<div class="word-analysis-container">
+
+
+<div class="transcript-container" *ngIf="transcript">
   <h4>Transcript</h4>
   <p>{{ transcript }}</p>
 </div>
 
-<div *ngIf="wordMatches.length > 0">
+<div class="word-match-container" *ngIf="wordMatches.length > 0">
   <h4>Word Matches</h4>
   {{wordMatches}}
 </div>
 
-<div *ngIf="wordConfidenceDetails.length > 0">
+<div class="confidence-scores-container"  *ngIf="wordConfidenceDetails.length > 0">
   <h4>Word Confidence Scores</h4>
   <ul>
     <li *ngFor="let detail of wordConfidenceDetails">
@@ -48,10 +51,13 @@
   </ul>
 </div>
 
-
-
-<div *ngIf="matchAccuracy >= 0">
+<div class="match-accuracy-container" *ngIf="matchAccuracy >= 0">
   <h4>Match Accuracy</h4>
   <p>{{ matchAccuracy }}%</p>
 </div>
+
+</div>
+
+
+
 </div>
