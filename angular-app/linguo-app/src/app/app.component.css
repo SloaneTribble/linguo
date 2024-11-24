@@ -3,23 +3,31 @@
 }
 
 html,
-body{
-    box-sizing: border-box;
+body {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  height: 100vh; /* Ensure full viewport height */
+  margin: 0; /* Remove default margin */
+  box-sizing: border-box;
+  background-color: #F09819; /* Your background color */
 }
 
 body{
     min-height: 100vh;
-    display: flex;
-    flex: 1;
     background-color: #F09819;
+
 }
 *,
 *:before,
 *:after{
     box-sizing: inherit;
-    max-width: 100%;
+    max-width: 70vw;
     margin: 0;
     font-family: 'Abril Fatface', cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 button {
@@ -57,9 +65,9 @@ button:active {
   padding: 10px;
   font-size: 1.5rem;
   box-shadow: var(--shadow);
-  display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
   background-color: rgb(115, 248, 37);
 }
 

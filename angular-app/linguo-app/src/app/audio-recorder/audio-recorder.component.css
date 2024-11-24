@@ -11,6 +11,12 @@
 
 .get-help-container {
   margin-top: 10px;
+  margin-left: .5rem;
+  display: flex;
+}
+
+.help-text-container{
+  background-color: peachpuff;
 }
 
 .get-help {
@@ -21,6 +27,10 @@
   border-radius: 5px;
   cursor: pointer;
   text-overflow: scroll;
+}
+
+pre{
+  background-color: peachpuff;
 }
 
 .get-help:hover {
@@ -55,10 +65,17 @@ pre {
   border: .2rem solid black;
   font-size: 1.5rem;
   text-align: center;
+  display: flex;
+}
+
+.recording-container{
+  display: flex;
+  align-items: center;
 }
 
 .button-container{
-  display: grid;
+  display: flex;
+  justify-content: center;
 }
   
 
@@ -101,4 +118,9 @@ pre {
   button.stop{
     box-shadow: 0px 0px 14px -7px #f05619;
     background-image: linear-gradient(45deg, #ff2f2f 0%, #c20000  51%, #ff2f2f  100%);
+  }
+
+  button.try-new-phrase{
+    box-shadow: 0px 0px 14px -7px #ac2800;
+    background-image: linear-gradient(45deg, #ff8c21 0%, #e5750d  51%, #e5ab0d  100%);
   }

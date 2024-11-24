@@ -18,7 +18,9 @@ const serverEndpoint = environment.serverEndpoint;
 })
 export class TextToSpeechComponent {
   textInput: string = '';
-  audioURL: string | null = null;
+  // audioURL: string | null = null;
+  // DEBUG
+  audioURL: string | null = 'abc';
   language: string = 'en-US'; // Default to English
   phrase: string = '';
   serverEndpoint = serverEndpoint;

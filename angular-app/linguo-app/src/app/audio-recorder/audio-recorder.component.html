@@ -5,19 +5,23 @@
       <button class="get-help" (click)="getHelp()">Get Help</button>
   </div>
   
-  <div *ngIf="helpText">
+  <div class="help-text-container" *ngIf="helpText">
     <h4>Advice for properly saying "{{ phrase }}"</h4>
-    <pre>{{ helpText }}</pre>
+      <pre>{{ helpText }}</pre>
   </div>
   
 
 <div class="phrase-container">
+  <button class="try-new-phrase" (click)="setRandomPhrase()">New Phrase</button>
   <p>{{ phrase }}</p>
 </div>
 <div>
-  <div class="button-container">
-    <button class="start" (click)="startRecording()">Start Recording</button>
-    <button class="stop" (click)="stopRecording()">Stop Recording</button>
+  <div class="recording-container">
+    <div class="button-container">
+      <button class="start" (click)="startRecording()">Start Recording</button>
+      <button class="stop" (click)="stopRecording()">Stop Recording</button>
+    </div>
+    <div *ngIf="audioURL">Your recording: </div>
     <audio *ngIf="audioURL" [src]="audioURL" controls></audio>
   </div>
 </div>

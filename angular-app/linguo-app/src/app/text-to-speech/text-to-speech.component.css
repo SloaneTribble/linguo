@@ -28,3 +28,9 @@ button {
   button:active {
     transform: scale(0.95);
   }
+
+  .text-to-speech{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

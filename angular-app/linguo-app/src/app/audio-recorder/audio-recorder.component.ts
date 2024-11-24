@@ -6,6 +6,7 @@ import { LanguageService } from '../services/language.service';
 import { PhraseService } from '../services/phrase.service';
 import { environment } from '../environments/environment';
 
+
 const openaiApiKey = environment.openaiApiKey;
 const serverEndpoint = environment.serverEndpoint;
 
@@ -21,12 +22,12 @@ export class AudioRecorderComponent {
   serverEndpoint = serverEndpoint;
 
   // // DEBUG
-  // recording = true;
-  // audioURL: string | null = 'abc';
+  recording = true;
+  audioURL: string | null = 'abc';
   // // END DEBUG
 
-  recording = false;
-  audioURL: string | null = null;
+  // recording = false;
+  // audioURL: string | null = null;
 
   // Default to English
   language: string = 'en-US'; 
@@ -37,17 +38,19 @@ export class AudioRecorderComponent {
   helpText: string = '';
 
   // // DEBUG
-  // transcript: string = 'hello';
-  // wordMatches: string[] = ['hello'];
-  // wordConfidenceDetails: { word: string, confidence: number }[] = [{word: "hello", confidence: .99}];
+  transcript: string = 'hello';
+  wordMatches: string[] = ['hello'];
+  wordConfidenceDetails: { word: string, confidence: number }[] = [{word: "hello", confidence: .99}];
   // // END DEBUG
 
   // variables for displaying feedback on user input
-  transcript: string = '';
-  wordMatches: string[] = [];
-  wordConfidenceDetails: { word: string, confidence: number }[] = [];
+  // transcript: string = '';
+  // wordMatches: string[] = [];
+  // wordConfidenceDetails: { word: string, confidence: number }[] = [];
 
   // set default to an impossible number to indicate no calculated value
+  // matchAccuracy: number = -100;
+
   matchAccuracy: number = 100;
 
   constructor(private audioService: AudioService, private http: HttpClient, private languageService: LanguageService, private phraseService: PhraseService) {
@@ -58,6 +61,10 @@ export class AudioRecorderComponent {
     this.phraseService.currentPhrase.subscribe((phrase) => {
       this.phrase = phrase;
     });
+  }
+
+  setRandomPhrase() {
+    this.phraseService.setRandomPhrase();
   }
 
   // note that more characters may need to be considered if languages outside of English and Spanish are available to user
